@@ -21,7 +21,7 @@ class Login extends CI_Controller {
             // verificarea daca exista in baza de date username cu acea parola
             $check_user_password = $this->db->query('SELECT * FROM users WHERE username = "'.$username.'" AND password = SHA1("'.$password.'")');
             if($check_user_password->num_rows() > 0){
-                echo 'User found!';
+                //echo 'User found!';
                 $login = array(
                     'username' => $username,
                     'nume_user' => $check_user_password->result()[0]->nume_user
@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 
                 $this->session->set_userdata($login);
 
-                redirect('welcome', 'refresh');
+                redirect('main', 'refresh');
             }else{
                 echo 'Wrong password!';
             }

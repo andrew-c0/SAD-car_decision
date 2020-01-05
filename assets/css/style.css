@@ -103,5 +103,26 @@ a, a:hover {
 /* Comparator - Container */
 
 .comparator-container {
+    display: none;
     padding: 40px;
+}
+
+.comparator-selector {
+    margin-top: 80px;
+}
+
+.selector-label {
+    margin-top: 20px;
+}
+
+.selector-1 .row, .selector-2 .row {
+    margin: 20px 0px;
+} 
+
+.selector-1-final, .selector-2-final {
+    display: none;
+}
+
+.calculator_rezultate {
+    display: none;
 }

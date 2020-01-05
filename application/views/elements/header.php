@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+	<title>Comparator Mașini - Alege mașina care ți se potrivește</title>
 
 	<!-- Base CSS -->
 	<link rel="stylesheet" href="/sad/assets/css/bootstrap.css">

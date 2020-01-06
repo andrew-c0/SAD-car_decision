@@ -161,6 +161,9 @@ function replace_identificare(i, den_producator, tip_model, an_fabricatie, lansa
     $('.'+i+'_tip_model').text(tip_model);
     $('.'+i+'_an_fabricatie').text(an_fabricatie);
     $('.'+i+'_lansat').text(lansat);
+    // populare obiect
+    obj1.an_fabricatie = an_fabricatie;
+    obj1.lansat = lansat;
 }
 
 function replace_dimensiuni(i, lungime, latime, inaltime, cap_portbagaj){
@@ -168,6 +171,11 @@ function replace_dimensiuni(i, lungime, latime, inaltime, cap_portbagaj){
     $('.'+i+'_latime').text(latime);
     $('.'+i+'_inaltime').text(inaltime);
     $('.'+i+'_cap_portbagaj').text(cap_portbagaj);
+
+    obj1.lungime = lungime;
+    obj1.latime = latime;
+    obj1.inaltime = inaltime;
+    obj1.cap_portbagaj = cap_portbagaj;
 }
 
 function replace_tehnice(i, cap_motor, tip_motor, tip_carburant, tip_cutie, trepte_cutie, cai_putere, cuplu, suspensie, turbina, faruri, senzori, greutate){
@@ -183,6 +191,18 @@ function replace_tehnice(i, cap_motor, tip_motor, tip_carburant, tip_cutie, trep
     $('.'+i+'_faruri').text(faruri);
     $('.'+i+'senzori').text(senzori);
     $('.'+i+'_greutate').text(greutate);
+
+    obj1.cap_motor = cap_motor;
+    obj1.tip_motor = tip_motor;
+    obj1.tip_carburant = tip_carburant;
+    obj1.tip_cutie = tip_cutie;
+    obj1.trepte_cutie = trepte_cutie;
+    obj1.cai_putere = cai_putere;
+    obj1.cuplu = cuplu;
+    obj1.suspensie = suspensie;
+    obj1.turbina = turbina;
+    obj1.senzori = senzori;
+    obj1.greutate = greutate;
 }
 
 function replace_confort(i, nr_portiere, AC, tip_AC, comenzi_volan, cruise_control, rating_NCAP, incalzire_scaune, computer_bord, plafon_panoramic, tapiterie){
@@ -196,6 +216,17 @@ function replace_confort(i, nr_portiere, AC, tip_AC, comenzi_volan, cruise_contr
     $('.'+i+'_computer_bord').text(computer_bord);
     $('.'+i+'_plafon_panoramic').text(plafon_panoramic);
     $('.'+i+'_tapiterie').text(tapiterie);
+
+    obj1.nr_portiere = nr_portiere;
+    obj1.ac = AC;
+    obj1.tip_ac = tip_AC;
+    obj1.comenzi_volan = comenzi_volan;
+    obj1.cruise_control = cruise_control;
+    obj1.incalzire_scaune = incalzire_scaune;
+    obj1.computer_bord = computer_bord;
+    obj1.plafon_panoramic = plafon_panoramic;
+    obj1.rating_siguranta = rating_NCAP;
+    obj1.tapiterie = tapiterie;
 }
 
 function replace_siguranta(i, ESP, ABS, lane_assist, brake_assist, asistenta_up_down){
@@ -204,6 +235,12 @@ function replace_siguranta(i, ESP, ABS, lane_assist, brake_assist, asistenta_up_
     $('.'+i+'_lane_assist').text(lane_assist);
     $('.'+i+'_brake_assist').text(brake_assist);
     $('.'+i+'_asistenta_up_down').text(asistenta_up_down);
+
+    obj1.esp = ESP;
+    obj1.abs = ABS;
+    obj1.lane_assist = lane_assist;
+    obj1.brake_assist = brake_assist;
+    obj1.asistenta_up_down = asistenta_up_down;
 }
 
 function retrieve_model_data(i, id_model){
@@ -271,12 +308,362 @@ function retrieve_model_data(i, id_model){
     })
 }
 
+function stat_calculator(obj1, obj2){
+    var obj_final= {
+        obj1_final: 0,
+        obj2_final: 0
+    };
+
+    /* Calculare scor pentru date identificare */
+        var obj_identificare = {
+            scor_1 :0,
+            scor_2 :0
+        };
+
+        // calculare scor in functie de anul de fabricatie al fiecaruia
+        if(obj1.an_fabricatie > obj2.an_fabricatie){
+            obj_identificare.scor_1 += 3;
+            obj_identificare.scor_2 += (obj2.an_fabricatie * 100 / obj1.an_fabricatie).toFixed(2);
+        }else{
+            obj_identificare.scor_2 += 3;
+            obj_identificare.scor_1 += (obj1.an_fabricatie * 100 / obj2.an_fabricatie).toFixed(2);
+        }
+        // Calculare scor daca acesta a fost lansat sau nu
+        if(obj1.lansat == 1 && obj2.lansat != 1){
+            obj_identificare.scor_1 += 2;
+        }else{
+            obj_identificare.scor_2 += 2;
+        }
+
+    /* Calculare scor pentru dimensiuni */
+        var obj_dimensiuni  = {
+            scor_1: 0,
+            scor_2: 0
+        };
+        // calculare scor pentru lungime
+        if(obj1.lungime > obj2.lungime){
+            obj_dimensiuni.scor_1 += 3;
+            obj_dimensiuni.scor_2 += (obj2.lungime * 100 / obj1.lungime).toFixed(2);
+        }else{
+            obj_dimensiuni.scor_2 += 3;
+            obj_dimensiuni.scor_1 += (obj1.lungime * 100 / obj2.lungime).toFixed(2);
+        }
+        // calculare scor pentru latime
+        if(obj1.latime > obj2.latime){
+            obj_dimensiuni.scor_1 += 1;
+            obj_dimensiuni.scor_2 += (obj2.latime * 100 / obj1.latime).toFixed(2);
+        }else{
+            obj_dimensiuni.scor_2 += 1;
+            obj_dimensiuni.scor_1 += (obj1.latime * 100 / obj2.latime).toFixed(2);
+        }
+        // calculare scor pentru inaltime
+        if(obj1.inaltime > obj2.inaltime){
+            obj_dimensiuni.scor_1 += 2;
+            obj_dimensiuni.scor_2 += (obj2.inaltime * 100 / obj1.inaltime).toFixed(2);
+        }else{
+            obj_dimensiuni.scor_2 += 2;
+            obj_dimensiuni.scor_1 += (obj1.inaltime * 100 / obj2.inaltime).toFixed(2);
+        }
+        // Calculare scor pentru capacitate portbagaj
+        if(obj1.cap_portbagaj > obj2.cap_portbagaj){
+            obj_dimensiuni.scor_1 += 4;
+            obj_dimensiuni.scor_2 += (obj2.cap_portbagaj * 100 / obj1.cap_portbagaj).toFixed(2);
+        }else{
+            obj_dimensiuni.scor_2 += 4;
+            obj_dimensiuni.scor_1 += (obj1.cap_portbagaj * 100 / obj2.cap_portbagaj).toFixed(2);
+        }
+    /* Calculare cost pentru date tehnice */
+        var obj_tehnic = {
+            scor_1 : 0,
+            scor_2 : 0
+        }
+        // calculare scor pentru capacitate motor
+        if(obj1.cap_motor > obj2.cap_motor){
+            obj_tehnic.scor_1 += 10;
+            obj_tehnic.scor_2 += (obj1.cap_motor * 100/ obj2.cap_motor).toFixed(2);
+        }else{
+            obj_tehnic.scor_2 += 10;
+            obj_tehnic.scor_1 += (obj2.cap_motor * 100/ obj1.cap_motor).toFixed(2);
+        }
+        // calculare scor pentru tip motor
+        if(obj1.tip_motor == 'Euro 6'){
+            obj_tehnic.scor_1 += 3;
+        }else if(obj1.tip_motor == 'Euro 5'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.tip_motor == 'Euro 4'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.tip_motor == 'Euro 6'){
+            obj_tehnic.scor_2 += 3;
+        }else if(obj2.tip_motor == 'Euro 5'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.tip_motor == 'Euro 4'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa tip carburant
+        if(obj1.tip_carburant == 'E'){
+            obj_tehnic.scor_1 += 3;
+        }else if(obj1.tip_carburant == 'H'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.tip_carburant == 'B'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.tip_carburant == 'E'){
+            obj_tehnic.scor_2 += 3;
+        }else if(obj2.tip_carburant == 'H'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.tip_carburant == 'B'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa tip cutie
+        if(obj1.tip_cutie == '2'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.tip_cutie == '1'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.tip_cutie == '2'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.tip_cutie == '1'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa trepte cutie
+        if(obj1.trepte_cutie > obj2.trepte_cutie){
+            obj_tehnic.scor_1 += 2;
+            obj_tehnic.scor_2 += (obj1.trepte_cutie * 100/ obj2.trepte_cutie).toFixed(2);
+        }else{
+            obj_tehnic.scor_2 += 2;
+            obj_tehnic.scor_1 += (obj2.trepte_cutie * 100/ obj1.trepte_cutie).toFixed(2);
+        }
+        // calculare scor dupa cai putere
+        if(obj1.cai_putere > obj2.cai_putere){
+            obj_tehnic.scor_1 += 3;
+            obj_tehnic.scor_2 += (obj1.cai_putere * 100/ obj2.cai_putere).toFixed(2);
+        }else{
+            obj_tehnic.scor_2 += 3;
+            obj_tehnic.scor_1 += (obj2.cai_putere * 100/ obj1.cai_putere).toFixed(2);
+        }
+        // calculare scor dupa cuplu
+        if(obj1.cuplu > obj2.cuplu){
+            obj_tehnic.scor_1 += 2;
+            obj_tehnic.scor_2 += (obj1.cuplu * 100/ obj2.cuplu).toFixed(2);
+        }else{
+            obj_tehnic.scor_2 += 2;
+            obj_tehnic.scor_1 += (obj2.cuplu * 100/ obj1.cuplu).toFixed(2);
+        }
+        // calculare scor dupa suspensie
+        if(obj1.suspensie == 'perne aer'){
+            obj_tehnic.scor_1 += 3;
+        }else if(obj1.suspensie == 'arcuri reglabile'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.suspensie == 'arcuri'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.suspensie == 'perne aer'){
+            obj_tehnic.scor_2 += 3;
+        }else if(obj2.suspensie == 'arcuri reglabile'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.suspensie == 'arcuri'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa turbina
+        if(obj1.turbina == 'multiple'){
+            obj_tehnic.scor_1 += 3;
+        }else if(obj1.turbina == 'mono'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.turbina == 'none'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.turbina == 'multiple'){
+            obj_tehnic.scor_2 += 3;
+        }else if(obj2.turbina == 'mono'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.turbina == 'none'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa faruri
+        if(obj1.turbina == 'led'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.turbina == 'xenon'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.turbina == 'led'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.turbina == 'xenon'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa senzori
+        if(obj1.senzori == 'full'){
+            obj_tehnic.scor_1 += 2;
+        }else if(obj1.senzori == 'parcare'){
+            obj_tehnic.scor_1 += 1;
+        }
+        if(obj2.senzori == 'full'){
+            obj_tehnic.scor_2 += 2;
+        }else if(obj2.senzori == 'parcare'){
+            obj_tehnic.scor_2 += 1;
+        }
+        // calculare scor dupa greutate
+        if(obj1.greutate > obj2.greutate){
+            obj_tehnic.scor_1 += 2;
+            obj_tehnic.scor_2 += (obj1.greutate * 100/ obj2.greutate).toFixed(2);
+        }else{
+            obj_tehnic.scor_2 += 2;
+            obj_tehnic.scor_1 += (obj2.greutate * 100/ obj1.greutate).toFixed(2);
+        }
+    /* Calculare cost pentru date confort */
+        var obj_confort = {
+            scor_1: 0,
+            scor_2: 0
+        }
+        // calculare scor dupa numar portiere
+        if(obj1.nr_portiere == '5'){
+            obj_confort.scor_1 += 2;
+        }else if(obj1.nr_portiere == '5'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.nr_portiere == '5'){
+            obj_confort.scor_2 += 2;
+        }else if(obj2.nr_portiere == '5'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa AC
+        if(obj1.ac == '1'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.ac == '1'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa tip AC
+        if(obj1.tip_ac == 'Climatronic'){
+            obj_confort.scor_1 += 3;
+        }else if(obj1.tip_ac == 'Bizonal'){
+            obj_confort.scor_1 += 2;
+        }else if(obj1.tip_ac == 'AC'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.tip_ac == 'Climatronic'){
+            obj_confort.scor_2 += 3;
+        }else if(obj2.tip_ac == 'Bizonal'){
+            obj_confort.scor_2 += 2;
+        }else if(obj2.tip_ac == 'AC'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa comenzi volan
+        if(obj1.comenzi_volan == '1'){
+            obj_confort.scor_1 += 2;
+        }
+        if(obj2.comenzi_volan == '1'){
+            obj_confort.scor_2 += 2;
+        }
+        //calculare scor dupa cruise control
+        if(obj1.cruise_control == '1'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.cruise_control == '1'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa rating siguranta
+        obj_confort.scor_1 += obj1.rating_siguranta;
+        obj_confort.scor_2 += obj2.rating_siguranta;
+        // calculare scor dupa incalzire scaune
+        if(obj1.incalzire_scaune == '1'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.incalzire_scaune == '1'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa computer de bord
+        if(obj1.computer_bord == '1'){
+            obj_confort.scor_1 += 2;
+        }
+        if(obj2.computer_bord == '1'){
+            obj_confort.scor_2 += 2;
+        }
+        // calculare scor dupa plafon panoramic
+        if(obj1.plafon_panoramic == '1'){
+            obj_confort.scor_1 += 1;
+        }
+        if(obj2.plafon_panoramic == '1'){
+            obj_confort.scor_2 += 1;
+        }
+        // calculare scor dupa tip tapiterie
+        if(obj1.tapiterie == 'alcantara'){
+            obj_confort.scor_1 += 3;
+        }else if(obj1.tapiterie == 'piele'){
+            obj_confort.scor_1 += 2;
+        }
+        if(obj2.tapiterie == 'alcantara'){
+            obj_confort.scor_2 += 3;
+        }else if(obj2.tapiterie == 'piele'){
+            obj_confort.scor_2 += 2;
+        }
+    /* Calculare cost pentru sisteme de siguranta */
+        var obj_siguranta = {
+            scor_1: 0,
+            scor_2: 0
+        }
+        // calculare cost dupa ESP
+        if(obj1.esp == '1'){
+            obj_siguranta.scor_1 += 7;
+        }
+        if(obj2.esp == '1'){
+            obj_siguranta.scor_2 += 7;
+        }
+        // calculare cost dupa ABS
+        if(obj1.abs == '1'){
+            obj_siguranta.scor_1 += 8;
+        }
+        if(obj2.abs == '1'){
+            obj_siguranta.scor_2 += 8;
+        }
+        // calculare cost dupa Lane Assist
+        if(obj1.lane_assist == '1'){
+            obj_siguranta.scor_1 += 3;
+        }
+        if(obj2.lane_assist == '1'){
+            obj_siguranta.scor_2 += 3;
+        }
+        // calculare cost dupa Brake Assist
+        if(obj1.brake_assist == '1'){
+            obj_siguranta.scor_1 += 4;
+        }
+        if(obj2.brake_assist == '1'){
+            obj_siguranta.scor_2 += 4;
+        }
+        // calculare cost dupa Asistenta up/down
+        if(obj1.asistenta_up_down == '1'){
+            obj_siguranta.scor_1 += 3;
+        }
+        if(obj2.asistenta_up_down == '1'){
+            obj_siguranta.scor_2 += 3;
+        }
+    /* Calculare total */
+        obj_final.obj1_final = obj_identificare.scor_1 + obj_dimensiuni.scor_1 + obj_tehnic.scor_1 + obj_confort.scor_1 + obj_siguranta.scor_1;
+        obj_final.obj2_final = obj_identificare.scor_2 + obj_dimensiuni.scor_2 + obj_tehnic.scor_2 + obj_confort.scor_2 + obj_siguranta.scor_2;
+    return obj_final;
+}
+
 /* Global variables */
 
 window.producator_1 = '';
 window.model_1 = '';
 window.producator_2 = '';
 window.model_2 = '';
+
+var obj1 = {
+    an_fabricatie, lansat, 
+    lungime, latime, inaltime, cap_portbagaj, 
+    cap_motor, tip_motor, tip_carburant, tip_cutie, trepte_cutie, cai_putere, cuplu, suspensie, turbina, senzori, greutate,
+    nr_portiere, ac, tip_ac, comenzi_volan, cruise_control, incalzire_scaune, rating_siguranta, computer_bord, plafon_panoramic, tapiterie,
+    esp, abs, lane_assist, brake_assist, asistenta_up_down
+};
+var obj2 = {
+    an_fabricatie, lansat, 
+    lungime, latime, inaltime, cap_portbagaj, 
+    cap_motor, tip_motor, tip_carburant, tip_cutie, trepte_cutie, cai_putere, cuplu, suspensie, turbina, senzori, greutate,
+    nr_portiere, ac, tip_ac, comenzi_volan, cruise_control, incalzire_scaune, rating_siguranta, computer_bord, plafon_panoramic, tapiterie,
+    esp, abs, lane_assist, brake_assist, asistenta_up_down
+}
 
 /* --- Document Ready --- */
 $(document).ready( function () {

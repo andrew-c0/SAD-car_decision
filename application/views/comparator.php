@@ -97,6 +97,9 @@
         Ai ales: <span class='selected-final-2 selected-final'>..............</span>
         </div>
     </div>
+    <div class="buton_container container">
+        <button type="button" class="btn btn-info btn-block btn-compara">Compară!</button>
+    </div>
 </div>
 
 <div class="comparator-container">
@@ -104,7 +107,7 @@
     <table class="table">
         <thead class="thead-dark">
             <tr class='row'>
-                <th class="col-sm-4">Comparator</th>
+                <th class="col-sm-4">Specificații</th>
                 <th class="col-sm-4 selected-final-1">Opel Corsa</th>
                 <th class="col-sm-4 selected-final-2">VW Golf 5</th>
             </tr>
@@ -136,6 +139,11 @@
                 <td class="col-sm-4 2_an_fabricatie">Test 2</td>
             </tr>
             <tr class='row'>
+                <td class="col-sm-4">Prețul actual</td>
+                <td class="col-sm-4 1_pret_masina">Test 1</td>
+                <td class="col-sm-4 2_pret_masina">Test 2</td>
+            </tr>
+            <tr class='row'>
                 <td class="col-sm-4">Lansat</td>
                 <td class="col-sm-4 1_lansat">Test 1</td>
                 <td class="col-sm-4 2_lansat">Test 2</td>
@@ -153,17 +161,17 @@
         </thead>
         <tbody>
             <tr class='row'>
-                <td class="col-sm-4">Lungime</td>
+                <td class="col-sm-4">Lungime (cm)</td>
                 <td class="col-sm-4 1_lungime">Test 1</td>
                 <td class="col-sm-4 2_lungime">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Lățime</td>
+                <td class="col-sm-4">Lățime (cm)</td>
                 <td class="col-sm-4 1_latime">Test 1</td>
                 <td class="col-sm-4 2_latime">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Înălțime</td>
+                <td class="col-sm-4">Înălțime (cm)</td>
                 <td class="col-sm-4 1_inaltime">Test 1</td>
                 <td class="col-sm-4 2_inaltime">Test 2</td>
             </tr>
@@ -188,6 +196,11 @@
                 <td class="col-sm-4">Capacitate motor</td>
                 <td class="col-sm-4 1_cap_motor">Test 1</td>
                 <td class="col-sm-4 2_cap_motor">Test 2</td>
+            </tr>
+            <tr class='row'>
+                <td class="col-sm-4">Consum (L/100 Km)</td>
+                <td class="col-sm-4 1_consum">Test 1</td>
+                <td class="col-sm-4 2_consum">Test 2</td>
             </tr>
             <tr class='row'>
                 <td class="col-sm-4">Tip motor</td>
@@ -215,7 +228,7 @@
                 <td class="col-sm-4 2_cai_putere">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Cuplu</td>
+                <td class="col-sm-4">Cuplu (Nm)</td>
                 <td class="col-sm-4 1_cuplu">Test 1</td>
                 <td class="col-sm-4 2_cuplu">Test 2</td>
             </tr>
@@ -240,7 +253,7 @@
                 <td class="col-sm-4 2_senzori">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Greutate</td>
+                <td class="col-sm-4">Greutate (Kg)</td>
                 <td class="col-sm-4 1_greutate">Test 1</td>
                 <td class="col-sm-4 2_greutate">Test 2</td>
             </tr>
@@ -283,7 +296,7 @@
                 <td class="col-sm-4 2_cruise_control">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Rating siguranță</td>
+                <td class="col-sm-4">Rating siguranță (Euro NCAP)</td>
                 <td class="col-sm-4 1_rating_NCAP">Test 1</td>
                 <td class="col-sm-4 2_rating_NCAP">Test 2</td>
             </tr>
@@ -435,6 +448,16 @@
                 <td class="col-sm-4 total_2">Test 2</td>
             </tr>
         </tbody>
+    </table>
+    <!-- Tabel scor final -->
+    <table class="table table_scor_final">
+        <thead class="thead-light">
+            <tr class='row'>
+                <th class="col-sm-4">Scor mașină</th>
+                <th class="col-sm-4 scoruri_finale 1_scor_masina"></th>
+                <th class="col-sm-4 scoruri_finale 2_scor_masina"></th>
+            </tr>
+        </thead>
     </table>
     <!-- Comparator raport preț-calitate -->
 </div>

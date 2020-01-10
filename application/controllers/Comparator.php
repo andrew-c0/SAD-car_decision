@@ -55,7 +55,7 @@ class Comparator extends CI_Controller {
 
 			$car_subclass = $_POST['base'];
 			
-			$all_manufacturers = $this->db->query('SELECT p.id_producator, p.den_producator FROM producatori p INNER JOIN serii_modele sm ON p.id_producator = sm.id_producator INNER JOIN clasificare c ON c.id_model = sm.id_model WHERE id_subclasa = '.$car_subclass);
+			$all_manufacturers = $this->db->query('SELECT DISTINCT p.id_producator, p.den_producator FROM producatori p INNER JOIN serii_modele sm ON p.id_producator = sm.id_producator INNER JOIN clasificare c ON c.id_model = sm.id_model WHERE id_subclasa = '.$car_subclass);
 
 			$manufacturers_array = [];
 			foreach($all_manufacturers->result() as $ac){
@@ -118,11 +118,12 @@ class Comparator extends CI_Controller {
 				];
 			}
 
-			$model_tehnice = $this->db->query('SELECT dimensiune_motor, tip_motor, carburant, tip_cutie, trepte_cutie, cai_putere, cuplu, suspensie, turbina, faruri, senzori, greutate FROM specificatii_tehnice WHERE id_model = '.$id_model);
+			$model_tehnice = $this->db->query('SELECT dimensiune_motor, consum, tip_motor, carburant, tip_cutie, trepte_cutie, cai_putere, cuplu, suspensie, turbina, faruri, senzori, greutate FROM specificatii_tehnice WHERE id_model = '.$id_model);
 
 			foreach($model_tehnice->result() as $mt){
 				$model_array['tehnice'] = [
 					$mt->dimensiune_motor,
+					$mt->consum,
 					$mt->tip_motor,
 					$mt->carburant,
 					$mt->tip_cutie,
@@ -137,7 +138,7 @@ class Comparator extends CI_Controller {
 				];
 			}
 
-			$model_confort = $this->db->query('SELECT nr_portiere, AC, tip_AC, `Comenzi volan` as comenzi_volan, `Cruise control` as cruise_control, rating_siguranta as rating_NCAP, incalzire_scaune, computer_bord, plafon_panoramic, tapiterie FROM specificatii_confort WHERE id_model = '.$id_model);
+			$model_confort = $this->db->query('SELECT nr_portiere, AC, tip_AC, comenzi_volan, cruise_control, rating_siguranta as rating_NCAP, incalzire_scaune, computer_bord, plafon_panoramic, tapiterie FROM specificatii_confort WHERE id_model = '.$id_model);
 
 			foreach($model_confort->result() as $mc){
 				$model_array['confort'] = [
@@ -154,7 +155,7 @@ class Comparator extends CI_Controller {
 				];
 			}
 
-			$model_siguranta = $this->db->query('SELECT ESP, ABS, `Lane Assist` as lane_assist,`Brake Assist` as brake_assist,`Asistenta urcare coborare` as asistenta_up_down FROM specificatii_siguranta WHERE id_model = '.$id_model);
+			$model_siguranta = $this->db->query('SELECT ESP, ABS, lane_assist, brake_assist, asistenta_urcare_coborare FROM specificatii_siguranta WHERE id_model = '.$id_model);
 
 			foreach($model_siguranta->result() as $ms){
 				$model_array['siguranta'] = [
@@ -162,10 +163,35 @@ class Comparator extends CI_Controller {
 					$ms->ABS,
 					$ms->lane_assist,
 					$ms->brake_assist,
-					$ms->asistenta_up_down
+					$ms->asistenta_urcare_coborare
 				];
 			}
+
+			$model_pret = $this->db->query('SELECT pret from preturi_modele WHERE id_model = '.$id_model.' ORDER BY an, trimestru DESC LIMIT 1');
+			foreach($model_pret->result() as $mp){
+				$model_array['car_price'] = [
+					$mp->pret
+				];
+			}
+
 			echo json_encode($model_array);
+		}else{
+			redirect('login');
+		}
+	}
+
+	public function get_rca_model(){
+		if($this->session->userdata('username') != ''){
+
+			$id_model = $_POST['id_model'];
+
+			$all_models = $this->db->query('SELECT RCA20, RCA40, RCA60 FROM intretinere_modele WHERE id_model = '.$id_model.'');
+			
+			$models_array = [];
+			foreach($all_models->result() as $ac){
+				array_push($models_array, $ac->RCA20, $ac->RCA40, $ac->RCA60);
+			}
+			echo json_encode($models_array);
 		}else{
 			redirect('login');
 		}

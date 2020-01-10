@@ -49,4 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</a>
 		</div>
 	</div>
+	<div class="table_container_relative">
+		<table class="table stick_comparator_thead">
+			<thead class="thead-dark">
+				<tr class="row">
+					<th class="col-sm-4">Specificații</th>
+					<th class="col-sm-4 selected-final-1"> Mașina 1 </th>
+					<th class="col-sm-4 selected-final-2"> Mașina 2 </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
 </div>

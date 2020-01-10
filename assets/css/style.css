@@ -71,7 +71,6 @@ a, a:hover {
 .footer {
     background: #2c003e;
     padding: 20px;
-    margin-top: 60px;
     color: white;
 }
 
@@ -79,6 +78,7 @@ a, a:hover {
 
 .menu-tiles {
     margin-top: 100px;
+    min-height: calc(100vh - 296px);
 }
 
 .menu-tiles .col-sm {
@@ -108,11 +108,8 @@ a, a:hover {
 }
 
 .comparator-selector {
-    margin-top: 80px;
-}
-
-.selector-label {
-    margin-top: 20px;
+    padding-top: 80px;
+    min-height: calc(100vh - 196px);
 }
 
 .selector-1 .row, .selector-2 .row {
@@ -123,6 +120,54 @@ a, a:hover {
     display: none;
 }
 
+.selected-final {
+    font-weight: 600;
+}
+
 .calculator_rezultate {
     display: none;
+}
+
+.btn-compara {
+    font-size: 28px;
+}
+
+.table_scor_final {
+    display: none;
+}
+
+.scoruri_finale {
+    font-size: 30px;
+}
+
+.score_win {
+    color: #28a745 !important;
+    font-size: 36px !important;
+    font-weight: 600;
+}
+
+.score_lose {
+    color: #dc3545 !important;
+    font-weight: 500;
+}
+
+.table_container_relative {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.stick_comparator_thead {
+    position: absolute;
+    top: 20px;
+    width: 96.4%;
+    display: none;
+}
+
+.green_plus {
+    background: #ccffcc;
+}
+
+.red_minus {
+    background: #ffcccc;
 }

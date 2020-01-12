@@ -40,6 +40,36 @@ if($('#comparator-tehnic').length > 0){
     });
 }
 
+if($('#pie_masini').length > 0){
+    var data_pie = '';
+
+    $.ajax({
+        type: 'post',
+        url: 'masini/pie_data',
+        async: false,
+        success: function(data){
+            data_pie = JSON.parse(data);
+            $('.total_masini').text(data_pie['total_masini']);
+        }
+    });
+
+    var ctx = document.getElementById('pie_masini').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        "data":  {
+            datasets: [{
+                data: data_pie['total'],
+                label: 'Numarul total de mașini',
+                backgroundColor: generate_colors(data_pie['total'].length)
+            }]
+            ,
+            labels: data_pie['nume']
+        }
+    });
+}
+
+/* End Graph.js */
+
 /* Global functions */
 // Selectare masina cu automatizare enable-disable
 
@@ -744,6 +774,9 @@ function stat_calculator(obj1, obj2){
         obj_final.obj2_final = parseFloat((obj_identificare.scor_2 + obj_dimensiuni.scor_2 + obj_tehnic.scor_2 + obj_confort.scor_2 + obj_siguranta.scor_2).toFixed(2));
         //console.log(obj_identificare.scor_2, obj_dimensiuni.scor_2, obj_tehnic.scor_2, obj_confort.scor_2, obj_siguranta.scor_2);
     /* Afisare total */
+        // recalculare conform pretului
+        obj_final.obj1_final = parseFloat((obj_final.obj1_final / obj1.car_price)*1000).toFixed(2);
+        obj_final.obj2_final = parseFloat((obj_final.obj2_final / obj2.car_price)*1000).toFixed(2);
         $('.1_scor_masina').text(obj_final.obj1_final);
         $('.2_scor_masina').text(obj_final.obj2_final);
         // adaugare clase in functie de scoruri
@@ -776,9 +809,9 @@ function add_class(selector, string_status = null){
 function check_visual_cars(obj1, obj2){
 
     // compararea pretului masinii
-    if(obj1.car_price > obj2.car_price){
+    if(obj1.car_price < obj2.car_price){
         add_class('pret_masina', '1>2');
-    }else if(obj1.car_price < obj2.car_price){
+    }else if(obj1.car_price > obj2.car_price){
         add_class('pret_masina', '1<2');
     }else{
         add_class('pret_masina');
@@ -951,12 +984,204 @@ function check_visual_cars(obj1, obj2){
     }
 }
 
+function adaugare_1_identificare(){
+    obj_add.producator = $('.1_producator').val();
+    obj_add.model = $('.1_model').val();
+    obj_add.an_fabricatie = parseInt($('.1_an_fabricatie').val());
+    obj_add.lansat = $('#1_lansat:checkbox:checked').length;
+    obj_add.car_price = parseInt($('.1_pret').val());
+}
+
+function adaugare_2_tehnic(){
+    obj_add.cap_motor = parseInt($('.2_dim_motor').val());
+    obj_add.tip_motor = $('.2_tip_motor option:selected').attr('value');
+    obj_add.consum = parseInt($('.2_consum').val());
+    obj_add.tip_carburant = $('.2_carburant option:selected').attr('value');
+    obj_add.tip_cutie = $('.2_tip_cutie').val();
+    obj_add.trepte_cutie = parseInt($('.2_trepte_cutie').val());
+    obj_add.cai_putere = parseInt($('.2_cai_putere').val());
+    obj_add.cuplu = parseInt($('.2_cuplu').val());
+    obj_add.suspensie = $('.2_suspensie').val();
+    obj_add.turbina = $('.2_turbina option:selected').attr('value');
+    obj_add.faruri = $('.2_faruri option:selected').attr('value');
+    obj_add.senzori = $('.2_senzori option:selected').attr('value');
+    obj_add.greutate = parseInt($('.2_greutate').val());
+}
+
+function adaugare_3_dimensiuni(){
+    obj_add.lungime = parseInt($('.3_lungime').val());
+    obj_add.latime = parseInt($('.3_latime').val());
+    obj_add.inaltime = parseInt($('.3_inaltime').val());
+    obj_add.cap_portbagaj = parseInt($('.3_cap_portbagaj').val());
+}
+
+function adaugare_4_confort(){
+    obj_add.nr_portiere = parseInt($('.4_portiere').val());
+    obj_add.ac = $('#4_ac:checkbox:checked').length;
+    obj_add.tip_ac = $('.4_tip_ac option:selected').attr('value');
+    obj_add.comenzi_volan = $('#4_comenzi_volan:checkbox:checked').length;
+    obj_add.cruise_control = $('#4_cruise_control:checkbox:checked').length;
+    obj_add.rating_siguranta = parseInt($('.4_rating_siguranta option:selected').attr('value'));
+    obj_add.incalzire_scaune = $('#4_incalzire_scaune:checkbox:checked').length;
+    obj_add.computer_bord = $('#4_computer_bord:checkbox:checked').length;
+    obj_add.plafon_panoramic = $('#4_plafon_panoramic:checkbox:checked').length;
+    obj_add.tapiterie = $('.4_tapiterie option:selected').attr('value');
+}
+
+function adaugare_5_siguranta(){
+    obj_add.esp = $('#5_esp:checkbox:checked').length;
+    obj_add.abs = $('#5_abs:checkbox:checked').length;
+    obj_add.lane_assist = $('#5_lane_assist:checkbox:checked').length;
+    obj_add.brake_assist = $('#5_brake_assist:checkbox:checked').length;
+    obj_add.asistenta_up_down = $('#5_asistenta_up_down:checkbox:checked').length;
+}
+
+function adaugare_6_rca(){
+    obj_add.rca20 = $('.6_rca20').val();
+    obj_add.rca40 = $('.6_rca40').val();
+    obj_add.rca60 = $('.6_rca60').val();
+}
+
+function colectare_add_update(){
+    adaugare_1_identificare();
+    adaugare_2_tehnic();
+    adaugare_3_dimensiuni();
+    adaugare_4_confort();
+    adaugare_5_siguranta();
+    adaugare_6_rca();
+}
+
+function edit_populate(data){
+    // date identificare
+    $('.1_producator').val(data['producator']);
+    $('.1_model').val(data['model']);
+    $('.1_an_fabricatie').val(data['an_fabricatie']);
+    $('.1_pret').val(data['car_price']);
+    if(data['lansat'] == 1){
+        $('#1_lansat').prop('checked', true);
+    }else{
+        $('#1_lansat').prop('checked', false);
+    }
+
+    // date tehnice
+    $('.2_dim_motor').val(data['dim_motor']);
+    $('.2_tip_motor').val(data['tip_motor']);
+    $('.2_consum').val(data['consum']);
+    $('.2_carburant').val(data['carburant']);
+    $('.2_tip_cutie').val(data['tip_cutie']);
+    $('.2_trepte_cutie').val(data['trepte_cutie']);
+    $('.2_cai_putere').val(data['cai_putere']);
+    $('.2_cuplu').val(data['cuplu']);
+    $('.2_suspensie').val(data['suspensie']);
+    $('.2_turbina').val(data['turbina']);
+    $('.2_faruri').val(data['faruri']);
+    $('.2_senzori').val(data['senzori']);
+    $('.2_greutate').val(data['greutate']);
+
+    //dimensiuni
+    $('.3_lungime').val(data['lungime']);
+    $('.3_latime').val(data['latime']);
+    $('.3_inaltime').val(data['inaltime']);
+    $('.3_cap_portbagaj').val(data['cap_portbagaj']);
+
+    //confort
+    $('.4_portiere').val(data['nr_portiere']);
+    if(data['ac'] == 1){
+        $('#4_ac').prop('checked', true);
+    }else{
+        $('#4_ac').prop('checked', false);
+    }
+    $('.4_tip_ac').val(data['tip_ac']);
+    if(data['comenzi_volan'] == 1){
+        $('#4_comenzi_volan').prop('checked', true);
+    }else{
+        $('#4_comenzi_volan').prop('checked', false);
+    }
+    if(data['cruise_control'] == 1){
+        $('#4_cruise_control').prop('checked', true);
+    }else{
+        $('#4_cruise_control').prop('checked', false);
+    }
+    $('.4_rating_siguranta').val(data['rating_siguranta']);
+    if(data['incalzire_scaune'] == 1){
+        $('#4_incalzire_scaune').prop('checked', true);
+    }else{
+        $('#4_incalzire_scaune').prop('checked', false);
+    }
+    if(data['computer_bord'] == 1){
+        $('#4_computer_bord').prop('checked', true);
+    }else{
+        $('#4_computer_bord').prop('checked', false);
+    }
+    if(data['plafon_panoramic'] == 1){
+        $('#4_plafon_panoramic').prop('checked', true);
+    }else{
+        $('#4_plafon_panoramic').prop('checked', false);
+    }
+    $('.4_tapiterie').val(data['tapiterie']);
+
+    // siguranta
+    if(data['esp'] == 1){
+        $('#5_esp').prop('checked', true);
+    }else{
+        $('#5_esp').prop('checked', false);
+    }
+    if(data['abs'] == 1){
+        $('#5_abs').prop('checked', true);
+    }else{
+        $('#5_abs').prop('checked', false);
+    }
+    if(data['lane_assist'] == 1){
+        $('#5_lane_assist').prop('checked', true);
+    }else{
+        $('#5_lane_assist').prop('checked', false);
+    }
+    if(data['brake_assist'] == 1){
+        $('#5_brake_assist').prop('checked', true);
+    }else{
+        $('#5_brake_assist').prop('checked', false);
+    }
+    if(data['asistenta_up_down'] == 1){
+        $('#5_asistenta_up_down').prop('checked', true);
+    }else{
+        $('#5_asistenta_up_down').prop('checked', false);
+    }
+    // RCA
+    $('.6_rca20').val(data['rca_20']);
+    $('.6_rca40').val(data['rca_40']);
+    $('.6_rca60').val(data['rca_60']);
+}
+
+function check_masina(obj){
+    let error = 0;
+    for (let key in obj) {
+        if(obj[key] == null || obj[key] === NaN){
+            error = error +1;
+        }
+    }
+    if(error > 0){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function generate_colors(max){
+    var colors = [];
+    for(var i = 1; i<=max; i++){
+        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+        colors.push(randomColor);
+    }
+    return colors;
+}
+
 /* Global variables */
 
 window.producator_1 = '';
 window.model_1 = '';
 window.producator_2 = '';
 window.model_2 = '';
+window.CRUD_id_model = '';
 
 var obj1 = {
     id_model: 0, an_fabricatie: 0, lansat: 0, 
@@ -973,6 +1198,15 @@ var obj2 = {
     esp: 0, abs: 0, lane_assist: 0, brake_assist: 0, asistenta_up_down: 0, car_price: 0
 };
 
+var obj_add = {
+    producator : null, model : null, an_fabricatie: null, lansat: null, 
+    lungime: null, latime: null, inaltime: null, cap_portbagaj: null, 
+    cap_motor: null, tip_motor: null, tip_carburant: null, tip_cutie: null, trepte_cutie: null, cai_putere: null, cuplu: null, suspensie: null, turbina: null, senzori: null, greutate: null,
+    nr_portiere: null, ac: null, tip_ac: null, comenzi_volan: null, cruise_control: null, incalzire_scaune: null, rating_siguranta: null, computer_bord: null, plafon_panoramic: null, tapiterie: null,
+    esp: null, abs: null, lane_assist: null, brake_assist: null, asistenta_up_down: null, car_price: null,
+    rca20: null, rca40:null, rca60: null
+}
+
 $(document).scroll(function() {
     var y = $(this).scrollTop();
     if (y > 600) {
@@ -987,7 +1221,7 @@ $(document).ready( function () {
 
     /* Lista masini */
     /* --- Datatables --- */
-    $('.tabel-masini').DataTable({
+    var masini_table = $('.tabel-masini').DataTable({
         ajax:{
             url: 'masini/ajax_get_all_cars',
             type: 'post'
@@ -1096,5 +1330,198 @@ $(document).ready( function () {
         }
     });
 
+    if(
+    $('.1_producator').length > 0
+    ){
+        $.ajax({
+            type: 'POST',
+            url: 'masini/ajax_get_producator',
+            success: function(data){
+                data = JSON.parse(data);
+                $('.1_producator').html('');
+                $('.1_producator').append('<option default disabled selected>Selectează...</option>');    
+                data.forEach(function(item){
+                    $('.1_producator').append('<option value="'+item[0] +'"> '+item[1]+' </option>');    
+                })
+            }, error: function(){
+                console.log('Selector populating didn\'t worked');
+            }
+        });
+    }
+    /* Functionalitatea butoanelor pentru prev/next la modal */
+    $(document).on('click', '.button_next', function(){
+        var current_id = parseInt($(this).attr('next-id'));
+        // afisare urmator div temporar
+        if(current_id != 0){
+            var next_id = current_id + 1;
+            $('.temporar').hide();
+            $('.temporar_steps_masina > .temporar:nth-child('+next_id+')').show();
+            $('.button_next').attr('next-id', next_id);
+            $('.button_back').attr('back-id', next_id);
+            $('.button_reset').attr('reset-id', next_id);
+            $('.button_back').hide();
+            if(next_id >= 2){
+                $('.button_back').show();
+            }
+            if(next_id == 5){
+                $('.button_next').hide();
+                $('.button_final').show();
+            }
+        }
+    });
 
+    $(document).on('click', '.button_back', function(){
+        var current_id = parseInt($(this).attr('back-id'));
+        // afisare urmator div temporar
+        if(current_id != 0){
+            var back_id = current_id - 1;
+            $('.temporar').hide();
+            $('.temporar_steps_masina > .temporar:nth-child('+back_id+')').show();
+            $('.button_next').attr('next-id', back_id);
+            $('.button_back').attr('back-id', back_id);
+            $('.button_reset').attr('reset-id', back_id);
+            $('.button_next').show();
+            if(back_id >= 5){
+                $('.button_next').hide();
+                $('.button_final').show();
+            }else{
+                $('.button_next').show();
+                $('.button_final').hide();
+            }
+            if(back_id == 1){
+                $('.button_back').hide();
+                $('.button_next').show();
+            }
+        }
+    });
+
+    /* Functionalitatea de reset pentru formulare */
+    $(document).on('click', '.button_reset', function(){
+        var current_id = parseInt($(this).attr('reset-id'));
+        if(current_id != 0){
+            $('.temporar_steps_masina > .temporar:nth-child('+current_id+') input').val('');
+            $('.temporar_steps_masina > .temporar:nth-child('+current_id+') select').prop('selectedIndex', 0);
+            $('.temporar_steps_masina > .temporar:nth-child('+current_id+') input').prop('checked', false);
+        }
+    });
+
+    $(document).on('click', '.button_final', function(){
+        var edit = parseInt($(this).attr('edit-d'));
+        colectare_add_update();
+        
+        if(
+            check_masina(obj_add) === true &&
+            edit == 0
+        ){
+            var obj_add_str = JSON.stringify(obj_add);
+
+            $.ajax({
+                type: 'post',
+                url: 'masini/add_masina',
+                data: {
+                    masina: obj_add_str
+                }, success: function(){
+                    $('#modal_adaugare_editare').modal('hide');
+                }, error: function(){
+                    console.log('verifica functia.');
+                }
+            });
+        }
+        else if(
+            check_masina(obj_add) === true &&
+            edit != 0
+        ){
+            var obj_add_str = JSON.stringify(obj_add);
+
+            $.ajax({
+                type: 'post',
+                url: 'masini/edit_masina',
+                data: {
+                    id_model : window.CRUD_id_model,
+                    masina: obj_add_str
+                }, success: function(){
+                    console.log('S-a efectuat editarea.');
+                }, error: function(){
+                    console.log('Erori la editare.');
+                }
+            });
+        }else{
+            $('.error_adaugare_editare').show();
+        }
+    });
+
+    /* Se vor reseta input-urile la apelarea unui nou formular */
+    $(document).on('click', '.btn_masini_adauga', function(){
+        $('.error_adaugare_editare').hide();
+        // resetare afisare temporale
+        $('.temporar').hide();
+        $('.temporar_steps_masina > .temporar:nth-child(1)').show();
+        $('.button_final').attr('edit', '');
+        // resetare input-uri
+        $('.temporar_steps_masina > .temporar input').val('');
+        $('.temporar_steps_masina > .temporar select').prop('selectedIndex', 0);
+        $('.temporar_steps_masina > .temporar input').prop('checked', false);
+        // ascundere butoane
+        $('.button_back').hide();
+        $('.button_final').hide();
+    });
+
+    $(document).on('click', '.delete_model', function(){
+        window.CRUD_id_model = parseInt($(this).attr('model-id'));
+        den_masina = $(this).attr('model-name');
+        $('.nume_masina_modal').text(den_masina);
+        $('#delete_modal').modal('show');
+    });
+
+    $(document).on('click', '.edit_model', function(){
+        window.CRUD_id_model = parseInt($(this).attr('model-id'));
+        $('.button_final').attr('edit-id', 1);
+        console.log($('.button_final').attr('edit-id'));
+        $('.temporar').hide();
+        $('.temporar_steps_masina > .temporar:nth-child(1)').show();
+        $('.button_next').show();
+        $('.button_next').attr('next-id', 1);
+        $('.button_back').attr('back-id', 1);
+        $('.button_back').attr('reset-id', 1);
+        // ajax pentru incarcare formular
+        $.ajax({
+            type: 'post',
+            url: 'masini/get_individual',
+            data: {
+                id_model : window.CRUD_id_model,
+            }, success: function(data){
+                data = JSON.parse(data);
+                console.log(data);
+                console.log('Date incarcate');
+                edit_populate(data);
+                // resetare afisare temporale
+                
+                $('.button_final').attr('edit', '');
+                // ascundere butoane
+                $('.button_back').hide();
+                $('.button_final').hide();
+                // afisare modal
+                $('#modal_adaugare_editare').modal('show');
+            }, error: function(){
+                console.log('Datele nu au fost incarcate. Verifica codul.');
+            }
+        });
+    });
+
+    $(document).on('click', '.btn_sterge_masina', function(){
+        $.ajax({
+            type: 'post',
+            url: 'masini/delete_masina',
+            data: {
+                id_model: window.CRUD_id_model
+            }, success: function(){
+                alert('Ștergere efectuată.');
+                // ascunderea modalului si refresh la tabel
+                $('#delete_modal').modal('hide');
+                masini_table.ajax.reload();
+            }, error: function(){
+                console.log('stergerea nu a mers.');
+            }
+        });
+    });
 } );

@@ -8,6 +8,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<!-- Base CSS -->
 	<link rel="stylesheet" href="/sad/assets/css/bootstrap.css">
+	<!-- Icons CSS -->
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<!-- Datatables CSS -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
 	<!-- User CSS -->

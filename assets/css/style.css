@@ -171,3 +171,43 @@ a, a:hover {
 .red_minus {
     background: #ffcccc;
 }
+
+/* Partea de masini, modalul de adaugare/editare */
+.temporar, .editeaza_5 {
+    display: none;
+}
+
+.temporar_2_tehnic {
+    display: block;
+}
+
+.button_back, .button_final {
+    display: none;
+}
+
+.error_adaugare_editare {
+    color: darkred;
+    font-weight: 500;
+    display: none;
+}
+
+.tabel-masini tbody > tr > td:nth-child(3) {
+    text-align: right;
+}
+
+.tabel-masini tbody > tr > td:nth-child(4) {
+    text-align: center;
+}
+
+.edit_model, .delete_model {
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.edit_model:hover {
+    background: #ccffcc;
+}
+
+.delete_model:hover{
+    background: #ffcccc;
+}

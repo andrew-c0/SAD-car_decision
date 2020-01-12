@@ -135,6 +135,13 @@ class Masini extends CI_Controller {
 		('.$data->rca20.', '.$data->rca40.', '.$data->rca60.')
 		';
 
+		// insert pentru tabela depreciere_pret
+		$val_dep = random_int(90, 99);
+		$sql_depreciere = '
+		INSERT INTO intretinere_modele
+		(depreciere) VALUES ('.$val_dep.')
+		';
+
 		// pentru fiecare insert, se va face cate un query separat pentru fiecare tabel
 		$this->db->trans_start();
 		$this->db->query($sql_identificare);
@@ -144,6 +151,7 @@ class Masini extends CI_Controller {
 		$this->db->query($sql_siguranta);
 		$this->db->query($sql_pret);
 		$this->db->query($sql_intretinere);
+		$this->db->query($sql_depreciere);
 		$this->db->trans_complete();
 
 		$output = '';

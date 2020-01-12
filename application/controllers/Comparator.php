@@ -196,4 +196,24 @@ class Comparator extends CI_Controller {
 			redirect('login');
 		}
 	}
+
+	public function calcul_depreciere(){
+
+		$id_model = $_POST['id_model'];
+
+		$sql_pret = 'SELECT pret from preturi_modele WHERE id_model = '.$id_model.' ORDER BY an, trimestru DESC LIMIT 1';
+		$sql_depreciere = 'SELECT depreciere FROM depreciere_pret WHERE id_model = '.$id_model;
+
+		$this->db->trans_start();
+		$sql_pret = $this->db->query('SELECT pret from preturi_modele WHERE id_model = '.$id_model.' ORDER BY an, trimestru DESC LIMIT 1');
+		$sql_depreciere = $this->db->query('SELECT depreciere FROM depreciere_pret WHERE id_model = '.$id_model);
+		$this->db->trans_complete();
+		
+		$data = array(
+			"pret" => $sql_pret->result()[0]->pret,
+			"depreciere" => $sql_depreciere->result()[0]->depreciere
+		);
+
+		echo json_encode($data);
+	}
 }

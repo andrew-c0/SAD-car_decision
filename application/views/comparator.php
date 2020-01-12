@@ -277,7 +277,21 @@
             </div>
         </div>
     </div>
-    
+    <hr>
+    <div class="container">
+        <div class="row">
+                    <div class="col-sm-9">
+                        <canvas id="evolutia-preturilor"></canvas>
+                    </div>
+                    <div class="col-sm-3 column">
+                        <label for="">Verifică evoluția prețului</label>
+                        <input type="number" class='form-control i_evolutia_preturilor' placeholder = 'Ex: 3'>
+                        <br>
+                        <button class="button btn btn-info btn-block btn_evolutia_preturilor">Actualizează</button>
+                    </div>
+        </div>
+    </div>
+    <hr>
     <!-- Date pentru confort -->
     <table class="table">
         <thead class="thead-light">

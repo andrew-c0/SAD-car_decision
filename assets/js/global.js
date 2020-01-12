@@ -13,7 +13,7 @@ function comparator_tehnic(){
                 /* Valoarea fiecarei categorii */
                 [
                     {
-                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        label: window.nume_producator_1  + window.nume_model_1,
                         backgroundColor: generate_colors(),
                         borderWidth: 1,
                         /* Date pentru fiecare categorie */
@@ -31,7 +31,7 @@ function comparator_tehnic(){
                         ]
                     }, 
                     {
-                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        label: window.nume_producator_2  + window.nume_model_2 ,
                         backgroundColor: generate_colors(),
                         data: [
                         obj2.consum
@@ -56,7 +56,7 @@ function comparator_tehnic(){
                 /* Valoarea fiecarei categorii */
                 [
                     {
-                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        label: window.nume_producator_1  + window.nume_model_1,
                         backgroundColor: generate_colors(),
                         borderWidth: 1,
                         /* Date pentru fiecare categorie */
@@ -74,7 +74,7 @@ function comparator_tehnic(){
                         ]
                     }, 
                     {
-                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        label: window.nume_producator_2  + window.nume_model_2 ,
                         backgroundColor: generate_colors(),
                         data: [
                             obj2.car_price
@@ -99,7 +99,7 @@ function comparator_tehnic(){
                 /* Valoarea fiecarei categorii */
                 [
                     {
-                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        label: window.nume_producator_1  + window.nume_model_1,
                         backgroundColor: generate_colors(),
                         borderWidth: 1,
                         /* Date pentru fiecare categorie */
@@ -117,7 +117,7 @@ function comparator_tehnic(){
                         ]
                     }, 
                     {
-                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        label: window.nume_producator_2 + window.nume_model_2 ,
                         backgroundColor: generate_colors(),
                         data: [
                             obj2.cai_putere
@@ -142,7 +142,7 @@ function comparator_tehnic(){
                 /* Valoarea fiecarei categorii */
                 [
                     {
-                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        label: window.nume_producator_1  + window.nume_model_1,
                         backgroundColor: generate_colors(),
                         borderWidth: 1,
                         /* Date pentru fiecare categorie */
@@ -160,7 +160,7 @@ function comparator_tehnic(){
                         ]
                     }, 
                     {
-                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        label: window.nume_producator_2  + window.nume_model_2 ,
                         backgroundColor: generate_colors(),
                         data: [
                             obj2.cap_motor
@@ -171,6 +171,34 @@ function comparator_tehnic(){
                     responsive: true
                 }
             }
+        });
+    }
+
+    if($('#evolutia-preturilor').length > 0){
+        var timeFormat = 'MM/DD/YYYY HH:mm';
+        var ctx = document.getElementById('evolutia-preturilor').getContext('2d');
+        var color_m1 = generate_colors();
+        var color_m2 = generate_colors();
+        window.evolutia_preturilor = new Chart(ctx, {
+            type: 'line',
+            data: {
+				labels:  // Date Objects
+					window.depreciere_model_1['label']
+				,
+				datasets: [{
+					label: window.nume_producator_1  + window.nume_model_1,
+                    backgroundColor: color_m1+'BF',
+                    borderColor: color_m1,
+					fill: true,
+					data: window.depreciere_model_1['pret'],
+				}, {
+					label: window.nume_producator_2 + window.nume_model_2 ,
+                    backgroundColor: color_m2+'BF',
+                    borderColor: color_m2,
+					fill: true,
+					data: window.depreciere_model_2['pret'],
+				}]
+			},
         });
     }
 }
@@ -236,6 +264,60 @@ function enable_select(selector, i){
             $('.comparator-container').hide();
     }
 }
+
+function calculare_depreciere(id_model, times){
+    var pret_initial = 0;
+    var depreciere = 0;
+    $.ajax({
+        type: 'post',
+        url: 'comparator/calcul_depreciere',
+        async: false,
+        data: {
+            id_model : id_model
+        }, success: function(data){
+            data = JSON.parse(data);
+            pret_initial = parseInt(data['pret']);
+            depreciere = parseInt(data['depreciere']);
+        }
+    });
+    var array_pret = [pret_initial];
+    var array_label = ['20/10/2019'];
+    var quarter = 0;
+    var an = 2020;
+    for(var i = 1; i<= times; i++){
+        if(i == 1){
+            // adaugare partea de date autogenerate
+            quarter++;
+            var data = '20/'+(quarter*3)+'/'+an; 
+            array_label.push(data);
+
+            // adaugare partea de pret
+            var depreciere_pret = Math.round(pret_initial * depreciere/parseFloat(100));
+            array_pret.push(depreciere_pret);
+        }else{
+            if(quarter < 4){
+                quarter++;
+            }else{
+                quarter = 1;
+                an++;
+            }
+            
+            // adaugare parte de date autogenerate
+            var data = '20/'+(quarter*3)+'/'+an; 
+            array_label.push(data);
+
+            // adaugare partea de pret
+            var depreciere_pret = Math.round(array_pret[array_pret.length - 1] * depreciere/parseFloat(100));
+            array_pret.push(depreciere_pret);
+        }
+    }
+    var array_depreciere = {
+        label: array_label,
+        pret: array_pret
+    }
+    console.log(array_depreciere);
+    return array_depreciere;
+};
 
 // Generare costuri pentru fiecare masina in parte in cazul fiecarei masini
 
@@ -1329,6 +1411,8 @@ window.nume_producator_2 = '';
 window.model_2 = '';
 window.nume_model_2 = '';
 window.CRUD_id_model = '';
+window.depreciere_model_1 = '';
+window.depreciere_model_2 = '';
 
 var obj1 = {
     id_model: 0, an_fabricatie: 0, lansat: 0, 
@@ -1458,6 +1542,8 @@ $(document).ready( function () {
             check_visual_cars(obj1, obj2);
             //console.log(calculator_result);
             $('.comparator-container').show();
+            window.depreciere_model_1 = calculare_depreciere(window.model_1, 3);
+            window.depreciere_model_2 = calculare_depreciere(window.model_2, 3);
             comparator_tehnic();
         }else{
             alert('Alegeți ambele mașini pentru a compara!');
@@ -1684,5 +1770,15 @@ $(document).ready( function () {
                 console.log('stergerea nu a mers.');
             }
         });
+    });
+
+    $(document).on('click', '.btn_evolutia_preturilor', function(){
+        var trimestre = parseInt($('.i_evolutia_preturilor').val());
+        window.depreciere_model_1 = calculare_depreciere(window.model_1, trimestre);
+        window.depreciere_model_2 = calculare_depreciere(window.model_2, trimestre);
+        window.evolutia_preturilor.data.labels = window.depreciere_model_1['label'];
+        window.evolutia_preturilor.data.datasets[0].data = window.depreciere_model_1['pret'];
+        window.evolutia_preturilor.data.datasets[1].data = window.depreciere_model_2['pret'];
+        window.evolutia_preturilor.update();
     });
 } );

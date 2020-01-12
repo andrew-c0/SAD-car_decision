@@ -445,7 +445,7 @@ class Masini extends CI_Controller {
 
 	public function pie_data(){
 
-		$sql_pie = $this->db->query('SELECT den_producator, COUNT(den_producator) as total FROM serii_modele GROUP BY den_producator LIMIT 15');
+		$sql_pie = $this->db->query('SELECT den_producator, COUNT(den_producator) as total FROM serii_modele GROUP BY den_producator ORDER BY  COUNT(den_producator) DESC LIMIT 15');
 		$data_nume = [];
 		$data_total = [];
 		if($sql_pie->num_rows() > 0){

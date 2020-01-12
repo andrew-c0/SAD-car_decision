@@ -1,44 +1,180 @@
 
 /* --- Chart.js --- */
-if($('#comparator-tehnic').length > 0){
-    var ctx = document.getElementById('comparator-tehnic').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'horizontalBar',
-        "data": {
-            /* Categoriile pentru care se face comparatia */
-            labels: ['Consum - Mai mic este mai bun', 'Greutate - Mai mic este mai bun'],
-            datasets: 
-            /* Valoarea fiecarei categorii */
-            [
-                {
-                    label: 'VW Golf 5',
-                    backgroundColor: '#00FF00',
-                    borderWidth: 1,
-                    /* Date pentru fiecare categorie */
-                    data: [
-                        20, 35
-                    ]
-                }, 
-                {
-                    label: 'Mașina ideală',
-                    backgroundColor: '#FF0000',
-                    borderWidth: 1,
-                    /* Date pentru fiecare categorie */
-                    data: [
-                        25, 40
-                    ]
-                }, 
-                {
-                    label: 'Opel Corsa',
-                    backgroundColor: '#0000FF',
-                    data: [
-                    14, 52
-                    ]
+
+function comparator_tehnic(){
+    if($('#comparator-consum').length > 0){
+        var ctx = document.getElementById('comparator-consum').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            "data": {
+                /* Categoriile pentru care se face comparatia */
+                labels: ['Consum - Mai mic este mai bun'],
+                datasets: 
+                /* Valoarea fiecarei categorii */
+                [
+                    {
+                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        backgroundColor: generate_colors(),
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            obj1.consum
+                        ]
+                    }, 
+                    {
+                        label: 'Mașina ideală',
+                        backgroundColor: '#FF0000',
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            masina_ideala.consum
+                        ]
+                    }, 
+                    {
+                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        backgroundColor: generate_colors(),
+                        data: [
+                        obj2.consum
+                        ]
+                    }
+                ],
+                options:{
+                    responsive: true
                 }
-            ]
-        }
-    });
+            }
+        });
+    }
+
+    if($('#comparator-pret').length > 0){
+        var ctx = document.getElementById('comparator-pret').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            "data": {
+                /* Categoriile pentru care se face comparatia */
+                labels: ['Preț - mai mic este mai bun'],
+                datasets: 
+                /* Valoarea fiecarei categorii */
+                [
+                    {
+                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        backgroundColor: generate_colors(),
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            obj1.car_price
+                        ]
+                    }, 
+                    {
+                        label: 'Mașina ideală',
+                        backgroundColor: '#FF0000',
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            masina_ideala.pret
+                        ]
+                    }, 
+                    {
+                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        backgroundColor: generate_colors(),
+                        data: [
+                            obj2.car_price
+                        ]
+                    }
+                ],
+                options:{
+                    responsive: true
+                }
+            }
+        });
+    }
+
+    if($('#comparator-cai_putere').length > 0){
+        var ctx = document.getElementById('comparator-cai_putere').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            "data": {
+                /* Categoriile pentru care se face comparatia */
+                labels: ['Cai putere - mai mult înseamnă mai puternic'],
+                datasets: 
+                /* Valoarea fiecarei categorii */
+                [
+                    {
+                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        backgroundColor: generate_colors(),
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            obj1.cai_putere
+                        ]
+                    }, 
+                    {
+                        label: 'Mașina ideală',
+                        backgroundColor: '#FF0000',
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            masina_ideala.cai_putere
+                        ]
+                    }, 
+                    {
+                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        backgroundColor: generate_colors(),
+                        data: [
+                            obj2.cai_putere
+                        ]
+                    }
+                ],
+                options:{
+                    responsive: true
+                }
+            }
+        });
+    }
+
+    if($('#comparator-capacitate_motor').length > 0){
+        var ctx = document.getElementById('comparator-capacitate_motor').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            "data": {
+                /* Categoriile pentru care se face comparatia */
+                labels: ['Capacitate motor - mai mult înseamnă mai puternic'],
+                datasets: 
+                /* Valoarea fiecarei categorii */
+                [
+                    {
+                        label: window.nume_producator_1 + ' ' + window.nume_model_1,
+                        backgroundColor: generate_colors(),
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            obj1.cap_motor
+                        ]
+                    }, 
+                    {
+                        label: 'Mașina ideală',
+                        backgroundColor: '#FF0000',
+                        borderWidth: 1,
+                        /* Date pentru fiecare categorie */
+                        data: [
+                            masina_ideala.cap_motor
+                        ]
+                    }, 
+                    {
+                        label: window.nume_producator_2 + ' ' + window.nume_model_2 ,
+                        backgroundColor: generate_colors(),
+                        data: [
+                            obj2.cap_motor
+                        ]
+                    }
+                ],
+                options:{
+                    responsive: true
+                }
+            }
+        });
+    }
 }
+
 
 if($('#pie_masini').length > 0){
     var data_pie = '';
@@ -175,12 +311,13 @@ function generate_costs(cap_cilindrica,pret_combustibil, km_an, consum, id_model
     pret_masina = parseInt(pret_masina);
     if(pret_masina !=''){
         /* Pretul reparatiilor si reviziilor pe perioada unui an - valoare estimativa*/
-        obj.reparatii_revizii = Math.round(0.195 *pret_masina);
+        obj.reparatii_revizii = parseInt(0.195 *pret_masina);
         /* Pretul masinii dupa 5 ani - valoare estimativa */
-        obj.pret_5_ani = Math.round(0.728 *pret_masina);
+        obj.pret_5_ani = parseInt(0.728 *pret_masina);
     }
     /* Costuri finale, in functie de parametrii anteriori */
     obj.cost_final = (obj.combustibil + obj.impozit + obj.rca + obj.rovinieta + obj.reparatii_revizii)* ani;
+
     return obj; 
 }
 
@@ -190,7 +327,7 @@ function replace_calculator( i,cost_combustibil, asigurare, impozit, revizii, pr
     $('.asigurare_'+i).text(Math.round(asigurare/ curs_eur) + ' €');
     $('.impozit_'+i).text(Math.round(impozit/ curs_eur) + ' €');
     $('.revizii_'+i).text(Math.round(revizii/ curs_eur) + ' €');
-    $('.pret_'+i).text(Math.round(pret/ curs_eur) + ' €');
+    $('.pret_'+i).text(Math.round(pret) + ' €');
     $('.cost_total_'+i).text(Math.round(cost_total/ curs_eur) + ' €');
     $('.total_'+i).text(Math.round(total/ curs_eur)+ ' €');
 }
@@ -1166,21 +1303,31 @@ function check_masina(obj){
     }
 }
 
-function generate_colors(max){
-    var colors = [];
-    for(var i = 1; i<=max; i++){
+function generate_colors(max = null){
+    if(max != null){
+        var colors = [];
+        for(var i = 1; i<=max; i++){
+            var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+            colors.push(randomColor);
+        }
+        return colors;
+    }else{
         var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
-        colors.push(randomColor);
+        return randomColor;
     }
-    return colors;
+    
 }
 
 /* Global variables */
 
 window.producator_1 = '';
 window.model_1 = '';
+window.nume_producator_1 = '';
+window.nume_model_1 = '';
 window.producator_2 = '';
+window.nume_producator_2 = '';
 window.model_2 = '';
+window.nume_model_2 = '';
 window.CRUD_id_model = '';
 
 var obj1 = {
@@ -1188,14 +1335,14 @@ var obj1 = {
     lungime: 0, latime: 0, inaltime: 0, cap_portbagaj: 0, 
     cap_motor: 0, tip_motor: 0, tip_carburant: 0, tip_cutie: 0, trepte_cutie: 0, cai_putere: 0, cuplu: 0, suspensie: 0, turbina: 0, senzori: 0, greutate: 0,
     nr_portiere: 0, ac: 0, tip_ac: 0, comenzi_volan: 0, cruise_control: 0, incalzire_scaune: 0, rating_siguranta: 0, computer_bord: 0, plafon_panoramic: 0, tapiterie: 0,
-    esp: 0, abs: 0, lane_assist: 0, brake_assist: 0, asistenta_up_down: 0, car_price: 0
+    esp: 0, abs: 0, lane_assist: 0, brake_assist: 0, asistenta_up_down: 0, car_price: 0, consum: 0
 };
 var obj2 = {
     id_model: 0, an_fabricatie: 0, lansat: 0, 
     lungime: 0, latime: 0, inaltime: 0, cap_portbagaj: 0, 
     cap_motor: 0, tip_motor: 0, tip_carburant: 0, tip_cutie: 0, trepte_cutie: 0, cai_putere: 0, cuplu: 0, suspensie: 0, turbina: 0, senzori: 0, greutate: 0,
     nr_portiere: 0, ac: 0, tip_ac: 0, comenzi_volan: 0, cruise_control: 0, incalzire_scaune: 0, rating_siguranta: 0, computer_bord: 0, plafon_panoramic: 0, tapiterie: 0,
-    esp: 0, abs: 0, lane_assist: 0, brake_assist: 0, asistenta_up_down: 0, car_price: 0
+    esp: 0, abs: 0, lane_assist: 0, brake_assist: 0, asistenta_up_down: 0, car_price: 0, consum: 0
 };
 
 var obj_add = {
@@ -1205,6 +1352,15 @@ var obj_add = {
     nr_portiere: null, ac: null, tip_ac: null, comenzi_volan: null, cruise_control: null, incalzire_scaune: null, rating_siguranta: null, computer_bord: null, plafon_panoramic: null, tapiterie: null,
     esp: null, abs: null, lane_assist: null, brake_assist: null, asistenta_up_down: null, car_price: null,
     rca20: null, rca40:null, rca60: null
+}
+
+var masina_ideala = {
+    consum: 7,
+    cai_putere: 120,
+    cuplu: 350,
+    cap_motor: 2000,
+    tip_motor: 'Euro 6',
+    pret: 15000
 }
 
 $(document).scroll(function() {
@@ -1244,12 +1400,14 @@ $(document).ready( function () {
     $(document).on('change', '#producator_1', function(){
         enable_select('producator', 1);
         window.producator_1 = $('#producator_1 option:selected').attr('value');
+        window.nume_producator_1 = $('#producator_1 option:selected').html();
         var subclasa = $('#subclasa_1 option:selected').attr('value');
         var producator = $('#producator_1 option:selected').attr('value');
         populate_select([producator, subclasa], 'get_car_model', '#model_1');
     });
     $(document).on('change', '#model_1', function(){
         window.model_1 = $('#model_1 option:selected').attr('value');
+        window.nume_model_1 = $('#model_1 option:selected').html();
         var den_producator = $('#producator_1 option:selected').text();
         var den_model = $('#model_1 option:selected').text();
         $('.selected-final-1').text(den_producator + ' ' + den_model);
@@ -1270,12 +1428,14 @@ $(document).ready( function () {
     $(document).on('change', '#producator_2', function(){
         enable_select('producator', 2);
         window.producator_2 = $('#producator_2 option:selected').attr('value');
+        window.nume_producator_2 =$('#producator_2 option:selected').html();
         var subclasa = $('#subclasa_2 option:selected').attr('value');
         var producator = $('#producator_2 option:selected').attr('value');
         populate_select([producator, subclasa], 'get_car_model', '#model_2');
     });
     $(document).on('change', '#model_2', function(){
         window.model_2 = $('#model_2 option:selected').attr('value');
+        window.nume_model_2 = $('#model_2 option:selected').html();
         var den_producator = $('#producator_2 option:selected').text();
         var den_model = $('#model_2 option:selected').text();
         $('.selected-final-2').text(den_producator + ' ' + den_model);
@@ -1298,6 +1458,7 @@ $(document).ready( function () {
             check_visual_cars(obj1, obj2);
             //console.log(calculator_result);
             $('.comparator-container').show();
+            comparator_tehnic();
         }else{
             alert('Alegeți ambele mașini pentru a compara!');
         }

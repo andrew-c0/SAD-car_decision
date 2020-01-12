@@ -259,7 +259,25 @@
             </tr>
         </tbody>
     </table>
-    <canvas id="comparator-tehnic"></canvas>
+    <div class="grafice_performanta container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <canvas id="comparator-consum"></canvas>
+            </div>
+            <div class="col-sm-6">
+                <canvas id="comparator-pret"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <canvas id="comparator-cai_putere"></canvas>
+            </div>
+            <div class="col-sm-6">
+                <canvas id="comparator-capacitate_motor"></canvas>
+            </div>
+        </div>
+    </div>
+    
     <!-- Date pentru confort -->
     <table class="table">
         <thead class="thead-light">
@@ -433,19 +451,19 @@
                 <td class="col-sm-4 revizii_2">Test 2</td>
             </tr>
             <tr class='row'>
-                <td class="col-sm-4">Preț de vânzare după 5 ani</td>
-                <td class="col-sm-4 pret_1">Test 1</td>
-                <td class="col-sm-4 pret_2">Test 2</td>
-            </tr>
-            <tr class='row'>
                 <td class="col-sm-4">Costuri totale</td>
                 <td class="col-sm-4 cost_total_1">Test 1</td>
                 <td class="col-sm-4 cost_total_2">Test 2</td>
             </tr>
-            <tr class='row'>
+            <tr class='row table-warning'>
                 <td class="col-sm-4">Total</td>
                 <td class="col-sm-4 total_1">Test 1</td>
                 <td class="col-sm-4 total_2">Test 2</td>
+            </tr>
+            <tr class='row table-primary'>
+                <td class="col-sm-4">Preț de vânzare după 5 ani</td>
+                <td class="col-sm-4 pret_1">Test 1</td>
+                <td class="col-sm-4 pret_2">Test 2</td>
             </tr>
         </tbody>
     </table>

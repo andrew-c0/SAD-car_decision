@@ -216,4 +216,20 @@ class Comparator extends CI_Controller {
 
 		echo json_encode($data);
 	}
+
+	public function get_future_price(){
+		
+		$id_producator = $_POST['id_prod'];
+
+		$val_car = 0;
+		$val_new_car = $this->db->query('SELECT DISTINCT serii_modele.den_producator, CEIL(SUM(preturi_modele.pret)/COUNT(preturi_modele.pret)) AS Median FROM preturi_modele INNER JOIN serii_modele ON preturi_modele.id_model=serii_modele.id_model WHERE preturi_modele.an>2017 AND serii_modele.id_producator='.$id_producator);
+
+		if($val_new_car->num_rows() > 0){
+			$val_car = $val_new_car->result()[0]->Median;
+		}
+		/* echo $val_car;
+		die(); */
+
+		echo json_encode($val_car);
+	}
 }

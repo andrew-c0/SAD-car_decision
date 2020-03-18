@@ -492,4 +492,19 @@
         </thead>
     </table>
     <!-- Comparator raport preț-calitate -->
+    <table class="table">
+        <thead class="thead-light">
+            <tr class='row'>
+                <th class="col-sm-4">Prețuri următoare</th>
+                <th class="col-sm-4"></th>
+                <th class="col-sm-4"></th>
+            </tr>
+        </thead>
+    </table>
+    <hr>
+    <div class="d-flex justify-content-center">
+            <div class="col-sm-6">
+                <canvas id="preturi_urmatoare"></canvas>
+            </div>
+        </div>
 </div>

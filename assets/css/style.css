@@ -211,3 +211,10 @@ a, a:hover {
 .delete_model:hover{
     background: #ffcccc;
 }
+
+.img_logo {
+    height: 80px;
+    margin: -40px;
+    margin-left: 0px;
+    width: auto;
+}

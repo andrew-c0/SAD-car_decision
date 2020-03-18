@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-sm-6">
 			<a href="main">
 				<div class="header-option">
-					Logo
+					<img src="/sad/assets/img/logo.png" class="img_logo" alt="">
 				</div>	
 			</a>
 		</div>
@@ -51,6 +51,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</a>
 		</div>
 	</div>
+	<?php
+	$currentPath ="$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	if($currentPath == 'localhost/sad/comparator'){?>
 	<div class="table_container_relative">
 		<table class="table stick_comparator_thead">
 			<thead class="thead-dark">
@@ -62,4 +65,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</thead>
 		</table>
 	</div>
+	<?php }?>
 </div>
